@@ -5,9 +5,10 @@ account: datastories001
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9078612
-bundleId: 7200095
+bundleId: 7200145
 url: https://datastories001.shinyapps.io/SelfServicePortal/
-when: 1683734590.07068
-lastSyncTime: 1683734590.07069
+when: 1683735118.18629
+lastSyncTime: 1683735118.1863
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: data/leiden_community_data.csv|POC_Self_Service.ipynb
