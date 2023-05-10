@@ -4,6 +4,8 @@ library(dplyr)
 library(visNetwork)
 library(data.table)
 
+# Add footer to each tab
+
 shinyApp(
   ui = dashboardPage(
     skin = "black",
@@ -11,13 +13,41 @@ shinyApp(
     sidebar = dashboardSidebar(
       collapsed = FALSE,
       sidebarMenu(
+        menuItem("One Hop Connections", tabName = "onehop", icon = icon("network-wired")),
         menuItem("Leiden Community Data", tabName = "filter", icon = icon("database")),
         menuItem("Network Explorer", tabName = "network", icon = icon("connectdevelop")),
+        menuItem("Code Sharing", tabName = "wiki", icon = icon("wikipedia-w")),
         menuItem("Employee Matching", tabName = "matching", icon = icon("users"))
       )
     ),
     body = dashboardBody(
       tabItems(
+        tabItem(tabName = "onehop",
+                fluidRow(
+                  column(width = 6,
+                         textInput("name", "Name", value = "John Doe"),
+                         textInput("state", "States", value = "FL"),
+                         textInput("city", "City", value = "Miami"),
+                         numericInput("amount", "Community Stimulus Amount", value = 1000000),
+                         numericInput("max_people", "Max Number of Individuals", value = 20),
+                         actionButton("submit", "Submit"),
+                         tags$head(
+                           tags$style(HTML('#submit{background-color:green; color:white; font-weight:bold}'))
+                         ),
+                         br(), br(), br()),
+                  column(width = 6,
+                         textInput("email", "Email"),
+                         textInput("SSH_key", "SSH Key for Encrypted Authentication"),
+                         actionButton("send_email", "Send Email & Request Tax IDs for Members of Community"),
+                         tags$head(
+                           tags$style(HTML('#send_email{background-color:green; color:white; font-weight:bold}'))
+                         ))
+                ),
+                fluidRow(
+                  box(width = 12, title = "Filtered Data", 
+                      DT::dataTableOutput("table"))
+                )
+        ),
         tabItem(tabName = "filter",
                 fluidRow(
                   column(width = 6,
@@ -60,12 +90,17 @@ shinyApp(
                 )
         )
       ),
-      br(), br(), br(), br(), br(), # br(), br(), br(), br(),
+      br(), br(), br(), br(), br(), br(), br(), br(), br(),
       tags$iframe(src = "https://i3llc.us/", 
                   height = "400", width = "100%", style = "border:none; margin-top:20px;")
     )
+    
+    
+    
   
   ),
+  
+  
   
   server = function(input, output, session) {
     
@@ -122,3 +157,4 @@ shinyApp(
   }
   
 )
+
