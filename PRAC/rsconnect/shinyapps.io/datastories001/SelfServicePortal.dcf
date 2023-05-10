@@ -1,0 +1,13 @@
+name: SelfServicePortal
+title: SelfServicePortal
+username:
+account: datastories001
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9078612
+bundleId: 7200095
+url: https://datastories001.shinyapps.io/SelfServicePortal/
+when: 1683734590.07068
+lastSyncTime: 1683734590.07069
+asMultiple: FALSE
+asStatic: FALSE
