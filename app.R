@@ -7,7 +7,6 @@ library(data.table)
 shinyApp(
   ui = dashboardPage(
     skin = "black",
-    options = list(sidebarExpandOnHover = TRUE),
     header = dashboardHeader(title = "Self-Service Portal"),
     sidebar = dashboardSidebar(
       collapsed = FALSE,
@@ -61,19 +60,21 @@ shinyApp(
                 )
         )
       ),
-      br(), br(), br(), br(), br(), br(), br(), br(), br(),
+      br(), br(), br(), br(), br(), # br(), br(), br(), br(),
       tags$iframe(src = "https://i3llc.us/", 
                   height = "400", width = "100%", style = "border:none; margin-top:20px;")
-    ),
-    controlbar = dashboardControlbar(),
-    title = "DashboardPage"
+    )
   
   ),
   
   server = function(input, output, session) {
     
-    # Load community data
-    data <- fread("leiden_community_data.csv")
+    # # Load data from GitHub URL
+    # data_url <- "https://github.com/timothyEastridge/SelfServicePortal/raw/main/leiden_community_data.csv"
+    # data <- read.csv(data_url, stringsAsFactors = FALSE)
+    
+    # Read CSV
+    data <- fread("leiden_community_data.csv", stringsAsFactors = FALSE)
     
     # Set initial values for inputs
     observe({
