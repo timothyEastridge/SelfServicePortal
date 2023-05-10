@@ -25,12 +25,15 @@ shinyApp(
         tabItem(tabName = "onehop",
                 fluidRow(
                   column(width = 6,
-                         textInput("name", "Name", value = "John Doe"),
-                         textInput("state", "States", value = "FL"),
-                         textInput("city", "City", value = "Miami"),
-                         numericInput("amount", "Community Stimulus Amount", value = 1000000),
-                         numericInput("max_people", "Max Number of Individuals", value = 20),
-                         actionButton("submit", "Submit"),
+                         textInput("ssns", "List of SSNs", value = ""),
+                         textInput("name", "Name", value = ""),
+                         textInput("state", "States", value = ""),
+                         textInput("city", "City", value = ""),
+                         textInput("zip", "Zip", value = ""),
+                         textInput("phone", "Phone", value = ""),
+                         numericInput("amount", "Stimulus Amount", value = ""),
+                         # numericInput("max_people", "Max Number of Individuals", value = 20),
+                         actionButton("submit_ssns", "Submit"),
                          tags$head(
                            tags$style(HTML('#submit{background-color:green; color:white; font-weight:bold}'))
                          ),
