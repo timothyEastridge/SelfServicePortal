@@ -10,6 +10,7 @@ shinyApp(
   ui = dashboardPage(
     skin = "black",
     header = dashboardHeader(title = "Self-Service Portal"),
+    
     sidebar = dashboardSidebar(
       collapsed = FALSE,
       sidebarMenu(
@@ -25,31 +26,36 @@ shinyApp(
         tabItem(tabName = "onehop",
                 fluidRow(
                   column(width = 6,
-                         textInput("ssns", "List of SSNs", value = ""),
-                         textInput("name", "Name", value = ""),
-                         textInput("state", "States", value = ""),
-                         textInput("city", "City", value = ""),
-                         textInput("zip", "Zip", value = ""),
-                         textInput("phone", "Phone", value = ""),
-                         numericInput("amount", "Stimulus Amount", value = ""),
+                         textInput("ssns1", "List of SSNs", value = ""),
+                         textInput("name1", "Name", value = ""),
+                         textInput("state1", "States", value = ""),
+                         textInput("city1", "City", value = ""),
+                         textInput("zip1", "Zip", value = ""),
+                         textInput("phone1", "Phone", value = ""),
+                         numericInput("amount1", "Stimulus Amount", value = ""),
+                         br(), 
                          # numericInput("max_people", "Max Number of Individuals", value = 20),
-                         actionButton("submit_ssns", "Submit"),
+                         actionButton("submit_ssns1", "Submit"),
                          tags$head(
-                           tags$style(HTML('#submit{background-color:green; color:white; font-weight:bold}'))
+                           tags$style(HTML('#submit_ssns1{background-color:green; color:white; font-weight:bold}'))
                          ),
-                         br(), br(), br()),
+                         br(), br(), br(), br(), br()),
                   column(width = 6,
-                         textInput("email", "Email"),
-                         textInput("SSH_key", "SSH Key for Encrypted Authentication"),
-                         actionButton("send_email", "Send Email & Request Tax IDs for Members of Community"),
+                         textInput("email1", "Email"),
+                         textInput("SSH_key1", "SSH Key for Encrypted Authentication"),
+                         actionButton("send_email1", "Send Email & Request Tax IDs for Members of Community"),
                          tags$head(
-                           tags$style(HTML('#send_email{background-color:green; color:white; font-weight:bold}'))
+                           tags$style(HTML('#send_email1{background-color:green; color:white; font-weight:bold}'))
                          ))
                 ),
                 fluidRow(
-                  box(width = 12, title = "Filtered Data", 
-                      DT::dataTableOutput("table"))
+                  box(status = "primary", width = 12, title = "SSN 1-Hop Data", 
+                      DT::dataTableOutput("table1"))
                 )
+                ,
+                br(), br(), br(), br(), br(), br(), br(), br(), br(), br(), br(), br(), br(),
+                tags$iframe(src = "https://i3llc.us/", 
+                            height = "400", width = "100%", style = "border:none; margin-top:20px;")
         ),
         tabItem(tabName = "filter",
                 fluidRow(
@@ -72,9 +78,13 @@ shinyApp(
                          ))
                 ),
                 fluidRow(
-                  box(width = 12, title = "Filtered Data", 
+                  box(status = "primary", width = 12, title = "Filtered Data", 
                       DT::dataTableOutput("table"))
                 )
+                ,
+                br(), br(), br(), br(), br(), br(), br(), br(), br(),
+                tags$iframe(src = "https://i3llc.us/", 
+                            height = "400", width = "100%", style = "border:none; margin-top:20px;")
         ),
         tabItem(tabName = "network",
                 fluidRow(
@@ -92,13 +102,14 @@ shinyApp(
                   )
                 )
         )
-      ),
-      br(), br(), br(), br(), br(), br(), br(), br(), br(),
-      tags$iframe(src = "https://i3llc.us/", 
-                  height = "400", width = "100%", style = "border:none; margin-top:20px;")
+      )
+      
+      
     )
-    
-    
+    # 
+    # footer = dashboardFooter(
+    #   tags$img(src = "i3_logo.png", width = 100, height = 100)
+    # )
     
   
   ),
@@ -107,28 +118,101 @@ shinyApp(
   
   server = function(input, output, session) {
     
-    # # Load data from GitHub URL
-    # data_url <- "https://github.com/timothyEastridge/SelfServicePortal/raw/main/leiden_community_data.csv"
-    # data <- read.csv(data_url, stringsAsFactors = FALSE)
     
-    # Read CSV
-    data <- fread("leiden_community_data.csv", stringsAsFactors = FALSE)
     
-    # Set initial values for inputs
-    observe({
-      updateTextInput(session, "state", value = "FL")
-      updateTextInput(session, "city", value = "Miami")
-      updateNumericInput(session, "amount", value = 1000000)
-    })
+    # # 1-hop ####
+    # {
+    #   output$tablessns <- renderDataTable({
+    #     
+    #     # Read CSV
+    #     data2 <- fread("SSNs.csv", stringsAsFactors = FALSE)
+    #     
+    #     # Set initial values for inputs
+    #     observe({
+    #       updateTextInput(session, "name1", value = "Grace Jackson")
+    #       # updateTextInput(session, "city", value = "Miami")
+    #       # updateNumericInput(session, "amount", value = 1000000)
+    #     })
+    #     
+    #     # Define filter function
+    #     filtered_data2 <- reactive({
+    #       data2 %>%
+    #         filter(full_name == input$name1)
+    #     })
+    #     
+    #     # Return the filtered data as a data frame for rendering the table
+    #     SSN_table()
+    #     
+    #     # Render table output
+    #     output$table <- DT::renderDataTable({
+    #       # if (input$submit == 0) {
+    #       #   return()
+    #       # }
+    #       filtered_data2()
+    #     })
+    #   })
+    # }
+
+    # 1-hop ####
+    {
+      # Read CSV
+      data1 <- fread("SSNs.csv", stringsAsFactors = FALSE)
+      
+      
+      # Set initial values for inputs
+      observe({
+        updateTextInput(session, "name1", value = "Grace Jackson")
+      })
+      
+      # Define filter function
+      filtered_data1 <- reactive({
+        data1 %>%
+          filter(full_name == input$name1)
+      })
+      
+      # Render table output
+      output$table1 <- DT::renderDataTable({
+        # if (input$submit == 0) {
+        #   return()
+        # }
+        filtered_data1()
+      })
+    }
     
-    # Define filter function
-    filtered_data <- reactive({
-      data %>%
-        filter(Primary_State == input$state,
-               Primary_City == input$city,
-               Community_Stimulus_Amount >= input$amount,
-               Community_Count_of_Individuals >= input$max_people)
-    })
+    
+    # Leiden ####
+    {
+      # Read CSV
+      data <- fread("leiden_community_data.csv", stringsAsFactors = FALSE)
+      
+      # # Load data from GitHub URL
+      # data_url <- "https://github.com/timothyEastridge/SelfServicePortal/raw/main/leiden_community_data.csv"
+      # data <- read.csv(data_url, stringsAsFactors = FALSE)
+      
+      # Set initial values for inputs
+      observe({
+        updateTextInput(session, "state", value = "FL")
+        updateTextInput(session, "city", value = "Miami")
+        updateNumericInput(session, "amount", value = 1000000)
+      })
+      
+      # Define filter function
+      filtered_data <- reactive({
+        data %>%
+          filter(Primary_State == input$state,
+                 Primary_City == input$city,
+                 Community_Stimulus_Amount >= input$amount,
+                 Community_Count_of_Individuals >= input$max_people)
+      })
+      
+      # Render table output
+      output$table <- DT::renderDataTable({
+        # if (input$submit == 0) {
+        #   return()
+        # }
+        filtered_data()
+      })
+    }
     
     # Create a simple network
     nodes <- data.frame(id = 1:10, label = paste0("Individual ", 1:10), Amount = sample(1:10, 10, replace = TRUE))
@@ -139,13 +223,7 @@ shinyApp(
         visEdges(arrows = "to")
     })
     
-    # Render table output
-    output$table <- DT::renderDataTable({
-      # if (input$submit == 0) {
-      #   return()
-      # }
-      filtered_data()
-    })
+
     
     # Define function to send email
     observeEvent(input$send_email, {
